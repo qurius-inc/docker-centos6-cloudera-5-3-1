@@ -13,6 +13,9 @@ RUN rpm -ivh jdk-8u5-linux-x64.rpm && rm jdk-8u5-linux-x64.rpm
 #setup the cloudera repo
 RUN wget http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/cloudera-manager.repo --output-document=/etc/yum.repos.d/cloudera-manager.repo
 RUN yum -y install cloudera-manager-server-db-2 cloudera-manager-daemons cloudera-manager-server cloudera-manager-agent cloudera-manager-daemons
+#setup basic hadoop configs
+RUN wget http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo --output-document=/etc/yum.repos.d/cloudera-cdh5.repo
+RUN yum -y install hadoop-yarn-resourcemanager yum install hadoop-hdfs-namenode hadoop-mapreduce-historyserver hadoop-yarn-proxyserver oozie oozie-client
 
 #make the directories
 RUN groupadd hadoop
@@ -32,14 +35,13 @@ RUN mkdir /var/cm/cloudera-service-monitor
 RUN mkdir /var/cm/sqoop2
 RUN mkdir /var/cm/zookeeper
 RUN mkdir /var/cm/zookeeper/version-2
-RUN chmod -R 777 /var/cm
+RUN chmod -R 744 /var/cm
 
 #this needs to be tested and verified
 RUN chown -R hdfs:hadoop /var/cm/datanode1
 RUN chown -R hdfs:hadoop /var/cm/datanode2
 RUN chown -R hdfs:hadoop /var/cm/datanode3
 
-ADD scripts/hosts_base /root/hosts_base
 ADD scripts/start.sh /root/start.sh
 RUN chmod +x /root/start.sh
 
