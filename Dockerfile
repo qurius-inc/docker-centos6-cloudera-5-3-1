@@ -17,10 +17,6 @@ RUN yum -y install cloudera-manager-server-db-2 cloudera-manager-daemons clouder
 RUN wget http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/cloudera-cdh5.repo --output-document=/etc/yum.repos.d/cloudera-cdh5.repo
 RUN yum -y install hadoop-yarn-resourcemanager yum install hadoop-hdfs-namenode hadoop-mapreduce-historyserver hadoop-yarn-proxyserver oozie oozie-client
 
-#make the directories
-RUN groupadd hadoop
-RUN useradd -g hadoop hdfs 
-
 RUN mkdir /var/cm
 RUN mkdir /var/cm/datanode1
 RUN mkdir /var/cm/datanode2
